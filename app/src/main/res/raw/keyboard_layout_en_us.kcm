@@ -307,3 +307,20 @@ key 0 {
     shift+alt:                          '0'
     shift+fn:                           '0'
 }
+
+# The physical "$" key reports scancode 41 as KEYCODE_GRAVE (device .kl:
+# "key 41    GRAVE"). Q25_keyboard.kcm defines no GRAVE block, so the lookup
+# fell through to Generic.kcm, which types a backtick -- hence the mismatch
+# between the printed legend and what appears.
+#
+# base types the "$" that is printed on the key. Backtick and tilde stay
+# reachable on the ALT (FUNCTION) and shift layers rather than being lost.
+key GRAVE {
+    label:                              '$'
+    base:                               '$'
+    shift:                              '~'
+    fn:                                 '`'
+    alt:                                '`'
+    fn+shift:                           '\u0303'
+    alt+shift:                          '\u0303'
+}
