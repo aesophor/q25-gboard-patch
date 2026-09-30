@@ -1,22 +1,36 @@
-This is a skeleton project for an Android application to customize an external keyboard layout without rooting or 3rd-party keyboard installation.
+## Q25 Gboard Patch
+Added a [new physical keyboard layout](https://github.com/aesophor/q25-gboard-patch/blob/6e4a9593d09b91c6464708e3ea2d2c147c514e9b/app/src/main/res/raw/keyboard_layout_en_us.kcm) "English (US), Q25 Gboard Patch" which fixes the following problems:
+1. the sticky ALT_LEFT problem
+2. the dollar sign key (previously mismapped to backtick by the firmware)
 
-It's a skeleton, so there is no apk or Play Store link. You'll have to build it and install resulting app on a device manually.
+## Requirements
+No root, no shinzuku, no accessibility needed.
 
-**Note**: if you don't want to build the app take a look at [ExKeyMo](https://exkeymo.herokuapp.com/) ([source code](https://github.com/ris58h/exkeymo-web)). It will build the app for you, but it's limited to two layouts only.
+## Build apk (optional)
+Needs **JDK 8** (Gradle 5.6.4 + AGP 3.6.3) and SDK platform 29 with build-tools 29.0.3.
+```sh
+export JAVA_HOME=/path/to/jdk8
+export ANDROID_HOME=/path/to/android-sdk
+./gradlew assembleDebug
+adb install -r app/build/outputs/apk/debug/app-debug.apk
+```
 
-# External keyboard customization
-There are several ways to customize an external keyboard on Android:
-1. Install 3-rd party keyboard which allows customization.
-2. Add/modify [Key Layout Files](https://source.android.com/devices/input/key-layout-files) or [Key Character Map Files](https://source.android.com/devices/input/key-character-map-files) on a device with root access.
-3. Install an application which provides [additional keyboard layouts](https://developer.android.com/reference/android/hardware/input/InputManager#ACTION_QUERY_KEYBOARD_LAYOUTS) (Key Character Map files).
+## How to use
+1. Install the apk from the [release page](https://github.com/aesophor/q25-gboard-patch/releases).
+2. Android will warn you if you want to install this unsafe app, enter you passcode and install it.
+3. Go to Settings > System > Keyboard > Physical keyboard > Q25_keyboard, and set all languages to `English (US), Q25 Gboard Patch`
 
-This project aims at the 3-rd option.
+## Limitations
+1. Zinwa Q25 + Gboard only.
+2. English (US) layout only (for now).
+   - If you need another keyboard layout, you can ask claude code to fix it.
 
-# The Way
-1. Clone the project
-2. Customize keyboard layouts.
-3. Build the app and install it on a device.
-4. Select your custom layout in device settings.
+## Extra Goodies
+How to make Gboard switch input language with physical keys?
+1. download [the latest version of Key Mapper](https://github.com/keymapperorg/KeyMapper) from github, since the Google Play version can't be installed.
+2. open Key Mapper, and add a new entry:
+   - trigger: Shift Left (Do not remap) + Space
+   - actions: Cycle keyboard language
 
-# Example
-You can find an example [here](https://github.com/ris58h/custom-keyboard-layout/tree/Vendor_17ef_Product_6048/app/src/main/res/raw). There are two ```kcm``` files to make MacOS like layout for ThinkPad Compact Bluetooth Keyboard (English and Russian). Default ```kcm``` files for different languages can be found [here](https://android.googlesource.com/platform/frameworks/base/+/master/packages/InputDevices/res/raw).
+## Credit
+Forked from [ris58h/custom-keyboard-layout](https://github.com/ris58h/custom-keyboard-layout). Validate a `.kcm` with the author's [validatekeymaps](https://ris58h.github.io/validatekeymaps/).
