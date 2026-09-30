@@ -32,7 +32,32 @@ type OVERLAY
 # symbol table is the stock one, not a reconstruction.
 map key 56 FUNCTION
 
-key A {
+# The keyboard has no period key -- the hardware key list contains no KEY_DOT,
+# so KEYCODE_PERIOD is never generated and Gboard's ALT+period shortcut (emoji
+# picker) is unreachable. "." exists only as a character on a symbol layer.
+#
+# A is therefore remapped to report KEYCODE_PERIOD. The block below still gives
+# it 'a', 'A' and '*', so typing is unchanged -- only the keycode differs. SYM is
+# KEYCODE_ALT_RIGHT, so SYM+A is a genuine ALT+PERIOD and opens the emoji picker.
+#
+# Do NOT move this to a key the lockscreen PIN uses. The keycode remap applies
+# device-wide, but the lockscreen resolves digits through the "number:" behavior
+# and does not see this overlay, so the remapped key goes dead there while every
+# other PIN key keeps working. F was tried and failed exactly this way.
+# Gboard honouring ALT+period was verified directly, by temporarily putting
+# PERIOD on S.
+#
+# The choice of key is constrained by the keyboard firmware, which handles parts
+# of the SYM layer itself, below Android. With SYM held (getevent on the
+# Q25_keyboard device, MSC_SCAN carrying the letter's ASCII):
+#   pass through: A C D F I N O P Q S T U V W
+#   swallowed, no EV_KEY at all: E M R X Z
+#   remapped by firmware: B->Down G->Left H->Home J->Right Y->Up
+#                         K->VolumeUp L->VolumeDown, and $ -> Mute
+# So SYM+E, the obvious mnemonic, cannot work at any level above the firmware.
+map key 30 PERIOD
+
+key PERIOD {
     label:                              'A'
     base:                               'a'
     shift, capslock:                    'A'
