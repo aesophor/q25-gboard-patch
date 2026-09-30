@@ -1,7 +1,15 @@
 ## Q25 Gboard Patch
-Added a [new physical keyboard layout](https://github.com/aesophor/q25-gboard-patch/blob/6e4a9593d09b91c6464708e3ea2d2c147c514e9b/app/src/main/res/raw/keyboard_layout_en_us.kcm) "English (US), Q25 Gboard Patch" which fixes the following problems:
+Added a [new physical keyboard layout](https://github.com/aesophor/q25-gboard-patch/blob/6e4a9593d09b91c6464708e3ea2d2c147c514e9b/app/src/main/res/raw/keyboard_layout_en_us.kcm) "English (US), Q25 Gboard Patch" which fixes:
 1. the sticky ALT_LEFT problem
 2. the dollar sign key (previously mismapped to backtick by the firmware)
+
+Adds the following shortcuts:
+1. sym + s = symbol picker
+2. sym + a = emoji picker
+
+Note that:
+1. ALT_LEFT is no longer sticky.
+2. SYM (ALT_RIGHT) is still sticky, this is something I can't fix.
 
 ## Requirements
 No root, no shinzuku, no accessibility needed.
@@ -24,6 +32,11 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 1. Zinwa Q25 + Gboard only.
 2. English (US) layout only (for now).
    - If you need another keyboard layout, you can ask claude code to fix it.
+
+## Compromise
+ALT_LEFT isn't sticky anymore, but with the following compromises:
+1. You can't hold SYM to type symbols anymore, hold ALT instead.
+2. ALT + Enter won't behave like "send" as before, use SYM + Enter instead.
 
 ## Extra Goodies
 How to make Gboard switch input language with physical keys?
